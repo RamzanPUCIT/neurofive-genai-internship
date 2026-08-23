@@ -85,4 +85,19 @@ model to keep its conclusion consistent with its own intermediate results.
 
 ## Method Notes
 
-- **Model:** ChatGPT (standard
+- **Model:** ChatGPT (standard chat model, not a reasoning model). A reasoning
+  model would perform CoT internally and collapse the contrast being measured.
+- **Isolation:** each run was executed in a **fresh chat session** to prevent
+  context bleed from the other run.
+- **Baseline constraint:** Run A explicitly instructed one-line output with no
+  working. Modern chat models volunteer step-by-step reasoning by default, so
+  suppressing it is required to establish a true no-CoT baseline. This mirrors
+  the direct-answer baseline used in the original CoT literature.
+
+---
+
+## Concepts Applied
+
+Chain-of-Thought prompting · persona / role prompting · reasoning models vs
+standard chat models · controlled prompt comparison · sunk cost and opportunity
+cost in incremental decision analysis
