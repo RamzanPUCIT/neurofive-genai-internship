@@ -1,0 +1,327 @@
+<!-- Floating AI Assistant widget — home page only -->
+<div id="mrsAssistant">
+    <button id="mrsAssistantToggle" type="button" aria-label="Chat with Hadi, the MRS Platform assistant" aria-expanded="false">
+        <i class="bi bi-chat-dots-fill" id="mrsAssistantIcon"></i>
+    </button>
+
+    <div id="mrsAssistantPanel" role="dialog" aria-label="Chat with Hadi" aria-hidden="true">
+        <div class="mrs-assistant-header">
+            <div class="mrs-assistant-header-info">
+                <span class="mrs-assistant-avatar"><i class="bi bi-robot"></i></span>
+                <div>
+                    <div class="mrs-assistant-name">Hadi</div>
+                    <div class="mrs-assistant-status"><span class="mrs-assistant-dot"></span>MRS Assistant</div>
+                </div>
+            </div>
+            <button id="mrsAssistantClose" type="button" aria-label="Close chat">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div id="mrsAssistantMessages" class="mrs-assistant-messages">
+            <div class="mrs-assistant-msg bot">Assalam-o-Alaikum! Main Hadi hoon, MRS Platform ka assistant. Aap se kaise madad kar sakta hoon?</div>
+        </div>
+
+        <div id="mrsAssistantTyping" class="mrs-assistant-typing" hidden>
+            <span></span><span></span><span></span>
+        </div>
+
+        <form id="mrsAssistantForm" class="mrs-assistant-input-row" autocomplete="off">
+            {% csrf_token %}
+            <input type="text" id="mrsAssistantInput" placeholder="Apna sawaal likhein..." maxlength="500" autocomplete="off">
+            <button type="submit" id="mrsAssistantSend" aria-label="Send message">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+#mrsAssistant {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10010;
+    font-family: 'Inter', sans-serif;
+}
+
+#mrsAssistantToggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #8A22EB, #FF6607);
+    color: #fff;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(138,34,235,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+#mrsAssistantToggle:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 30px rgba(138,34,235,0.45); }
+#mrsAssistantToggle:active { transform: scale(0.96); }
+
+#mrsAssistantPanel {
+    position: absolute;
+    right: 0;
+    bottom: 76px;
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    height: 480px;
+    max-height: calc(100vh - 140px);
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #f0eaff;
+    box-shadow: 0 16px 50px rgba(26,22,37,0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.97);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+#mrsAssistant.open #mrsAssistantPanel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.mrs-assistant-header {
+    background: linear-gradient(135deg, #1A1625, #8A22EB);
+    color: #fff;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+.mrs-assistant-header-info { display: flex; align-items: center; gap: 10px; }
+.mrs-assistant-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+.mrs-assistant-name { font-weight: 700; font-size: 0.95rem; line-height: 1.2; }
+.mrs-assistant-status { font-size: 0.72rem; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+.mrs-assistant-dot { width: 7px; height: 7px; border-radius: 50%; background: #28a745; box-shadow: 0 0 6px #28a745; flex-shrink: 0; }
+#mrsAssistantClose {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    font-size: 1.05rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+#mrsAssistantClose:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+.mrs-assistant-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #faf8ff;
+}
+.mrs-assistant-msg {
+    max-width: 82%;
+    padding: 9px 13px;
+    border-radius: 14px;
+    font-size: 0.87rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.mrs-assistant-msg.bot {
+    align-self: flex-start;
+    background: #fff;
+    color: #1A1625;
+    border: 1px solid #ece4fa;
+    border-bottom-left-radius: 4px;
+}
+.mrs-assistant-msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #8A22EB, #a855f7);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+.mrs-assistant-msg.error {
+    align-self: flex-start;
+    background: #fff5f5;
+    color: #c0392b;
+    border: 1px solid #f5c6cb;
+    border-bottom-left-radius: 4px;
+}
+
+.mrs-assistant-typing {
+    padding: 0 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    background: #faf8ff;
+}
+.mrs-assistant-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #b39ddb;
+    display: inline-block;
+    animation: mrsTypingBounce 1.2s ease-in-out infinite;
+}
+.mrs-assistant-typing span:nth-child(2) { animation-delay: 0.15s; }
+.mrs-assistant-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes mrsTypingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-5px); opacity: 1; }
+}
+
+.mrs-assistant-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid #f0eaff;
+    background: #fff;
+    flex-shrink: 0;
+}
+#mrsAssistantInput {
+    flex: 1;
+    border: 1px solid #e4d9fb;
+    border-radius: 20px;
+    padding: 9px 15px;
+    font-size: 0.87rem;
+    outline: none;
+    font-family: inherit;
+    color: #1A1625;
+    background: #faf8ff;
+    transition: border-color 0.2s, background 0.2s;
+}
+#mrsAssistantInput:focus { border-color: #8A22EB; background: #fff; }
+#mrsAssistantInput:disabled { opacity: 0.6; }
+#mrsAssistantSend {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: linear-gradient(135deg, #FF6607, #ff8533);
+    color: #fff;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, opacity 0.15s;
+}
+#mrsAssistantSend:hover { transform: scale(1.08); }
+#mrsAssistantSend:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+@media (max-width: 480px) {
+    #mrsAssistant { right: 14px; bottom: 14px; }
+    #mrsAssistantToggle { width: 54px; height: 54px; font-size: 1.3rem; }
+    #mrsAssistantPanel {
+        width: calc(100vw - 28px);
+        height: calc(100vh - 110px);
+        bottom: 66px;
+    }
+}
+</style>
+
+<script>
+(function() {
+    var root = document.getElementById('mrsAssistant');
+    var toggleBtn = document.getElementById('mrsAssistantToggle');
+    var toggleIcon = document.getElementById('mrsAssistantIcon');
+    var closeBtn = document.getElementById('mrsAssistantClose');
+    var panel = document.getElementById('mrsAssistantPanel');
+    var messagesBox = document.getElementById('mrsAssistantMessages');
+    var typingBox = document.getElementById('mrsAssistantTyping');
+    var form = document.getElementById('mrsAssistantForm');
+    var input = document.getElementById('mrsAssistantInput');
+    var sendBtn = document.getElementById('mrsAssistantSend');
+    var csrfInput = form.querySelector('input[name=csrfmiddlewaretoken]');
+
+    function setOpen(open) {
+        root.classList.toggle('open', open);
+        toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        toggleIcon.className = open ? 'bi bi-x-lg' : 'bi bi-chat-dots-fill';
+        if (open) {
+            setTimeout(function() { input.focus(); }, 200);
+        }
+    }
+
+    toggleBtn.addEventListener('click', function() {
+        setOpen(!root.classList.contains('open'));
+    });
+    closeBtn.addEventListener('click', function() { setOpen(false); });
+
+    function addMessage(text, type) {
+        var el = document.createElement('div');
+        el.className = 'mrs-assistant-msg ' + type;
+        el.textContent = text;
+        messagesBox.appendChild(el);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+        return el;
+    }
+
+    function setLoading(loading) {
+        typingBox.hidden = !loading;
+        sendBtn.disabled = loading;
+        input.disabled = loading;
+        if (loading) messagesBox.scrollTop = messagesBox.scrollHeight;
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, 'user');
+        input.value = '';
+        setLoading(true);
+
+        fetch("{% url 'assistant:chat_api' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfInput.value
+            },
+            body: JSON.stringify({ message: text })
+        })
+        .then(function(res) {
+            return res.json().then(function(data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function(result) {
+            if (result.ok && result.data.reply) {
+                addMessage(result.data.reply, 'bot');
+            } else {
+                addMessage('Maazrat, is waqt jawab nahi mil saka. Dobara koshish karein.', 'error');
+            }
+        })
+        .catch(function() {
+            addMessage('Maazrat, connection mein masla hai. Dobara koshish karein.', 'error');
+        })
+        .finally(function() {
+            setLoading(false);
+        });
+    });
+})();
+</script>
