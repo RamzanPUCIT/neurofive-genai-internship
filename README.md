@@ -7,3 +7,4 @@ Cohort: July 2026
 ## Tasks
 
 - [Week 1 - Task 1: Zero-Shot vs Few-Shot Showdown](./week1/task1-zero-shot-vs-few-shot/README.md)
+- [Week 2 - Build a Custom AI Chatbot with a System Prompt](./week2/README.md)
