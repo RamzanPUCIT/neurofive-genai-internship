@@ -1,0 +1,9 @@
+# 5 real questions + 2 traps
+
+Which university awarded the PhD, and in which year was it completed?
+List every bachelor thesis supervised, with the student year ranges.
+What is the earliest teaching position held, and at which institution?
+Which research areas are stated as the research interest?
+Name one conference paper listed and its co-authors.
+What programming languages does this person know?
+How many citations does this person have on Google Scholar?
