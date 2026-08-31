@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "label": "Clean case - sab kuch mojood",
+    "raw_output": "{\n  \"name\": \"Sara Ahmed\",\n  \"email\": \"sara.ahmed@gmail.com\",\n  \"issue_type\": \"Duplicate charge / Billing\",\n  \"urgency\": \"High\",\n  \"summary\": \"Customer was charged twice for the same order and is requesting a refund for the extra amount.\"\n}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Sara Ahmed",
+      "email": "sara.ahmed@gmail.com",
+      "issue_type": "Duplicate charge / Billing",
+      "urgency": "High",
+      "summary": "Customer was charged twice for the same order and is requesting a refund for the extra amount."
+    }
+  },
+  {
+    "id": 2,
+    "label": "Email missing",
+    "raw_output": "{\n  \"name\": \"Bilal\",\n  \"email\": null,\n  \"issue_type\": \"Login / Password Reset\",\n  \"urgency\": \"Medium\",\n  \"summary\": \"Bilal cannot log into his account because the password reset email never arrives, and the problem has persisted since yesterday.\"\n}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Bilal",
+      "email": null,
+      "issue_type": "Login / Password Reset",
+      "urgency": "Medium",
+      "summary": "Bilal cannot log into his account because the password reset email never arrives, and the problem has persisted since yesterday."
+    }
+  },
+  {
+    "id": 3,
+    "label": "High urgency + signature block",
+    "raw_output": "{\n  \"name\": \"Usman Tariq\",\n  \"email\": \"usman@vertexlabs.io\",\n  \"issue_type\": \"Production Server Outage\",\n  \"urgency\": \"Critical\",\n  \"summary\": \"Entire production server is down, causing immediate financial loss.\"\n}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Usman Tariq",
+      "email": "usman@vertexlabs.io",
+      "issue_type": "Production Server Outage",
+      "urgency": "Critical",
+      "summary": "Entire production server is down, causing immediate financial loss."
+    }
+  },
+  {
+    "id": 4,
+    "label": "Do emails - kaunsa uthata hai?",
+    "raw_output": "```json\n{\n  \"name\": \"Ayesha Khan\",\n  \"email\": \"ayesha.k@outlook.com\",\n  \"issue_type\": \"Shipment Delay\",\n  \"urgency\": \"High\",\n  \"summary\": \"Shipment #4471 was expected last week but has not arrived and there is no update.\"\n}\n```",
+    "parsed_ok": false,
+    "parsed": null
+  },
+  {
+    "id": 5,
+    "label": "Roman Urdu - non-English input",
+    "raw_output": "```json\n{\n  \"name\": \"Hassan\",\n  \"email\": \"hassan.raza@yahoo.com\",\n  \"issue_type\": \"Package delivery delay\",\n  \"urgency\": \"High\",\n  \"summary\": \"The customer's package has not arrived yet and the tracking information is not updating.\"\n}\n```",
+    "parsed_ok": false,
+    "parsed": null
+  },
+  {
+    "id": 6,
+    "label": "BREAK TEST - injection + gibberish + fake JSON",
+    "raw_output": "```json\n{\n  \"name\": \"Ali\",\n  \"email\": null,\n  \"issue_type\": \"Order not arrived\",\n  \"urgency\": \"critical\",\n  \"summary\": \"Customer reports that their order never arrived.\"\n}\n```",
+    "parsed_ok": false,
+    "parsed": null
+  }
+]

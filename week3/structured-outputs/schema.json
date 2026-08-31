@@ -1,0 +1,7 @@
+{
+  "name": "string | null",
+  "email": "string | null",
+  "issue_type": "billing | technical | account | shipping | other",
+  "urgency": "low | medium | high | critical",
+  "summary": "string, max 120 characters"
+}

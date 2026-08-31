@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "label": "Clean case - sab kuch mojood",
+    "raw_output": "{\"name\":\"Sara Ahmed\",\"email\":\"sara.ahmed@gmail.com\",\"issue_type\":\"billing\",\"urgency\":\"high\",\"summary\":\"Charged twice for same order, requesting refund.\"}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Sara Ahmed",
+      "email": "sara.ahmed@gmail.com",
+      "issue_type": "billing",
+      "urgency": "high",
+      "summary": "Charged twice for same order, requesting refund."
+    }
+  },
+  {
+    "id": 2,
+    "label": "Email missing",
+    "raw_output": "{\"name\":\"Bilal\",\"email\":null,\"issue_type\":\"account\",\"urgency\":\"high\",\"summary\":\"Bilal cannot log into his account; password reset email not received.\"}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Bilal",
+      "email": null,
+      "issue_type": "account",
+      "urgency": "high",
+      "summary": "Bilal cannot log into his account; password reset email not received."
+    }
+  },
+  {
+    "id": 3,
+    "label": "High urgency + signature block",
+    "raw_output": "{\"name\":\"Usman Tariq\",\"email\":\"usman@vertexlabs.io\",\"issue_type\":\"technical\",\"urgency\":\"critical\",\"summary\":\"Production server down, urgent, causing revenue loss.\"}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Usman Tariq",
+      "email": "usman@vertexlabs.io",
+      "issue_type": "technical",
+      "urgency": "critical",
+      "summary": "Production server down, urgent, causing revenue loss."
+    }
+  },
+  {
+    "id": 4,
+    "label": "Do emails - kaunsa uthata hai?",
+    "raw_output": "{\"name\":\"Ayesha Khan\",\"email\":\"ayesha.k@outlook.com\",\"issue_type\":\"shipping\",\"urgency\":\"medium\",\"summary\":\"Shipment #4471 delayed; no update after expected arrival last week.\"}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Ayesha Khan",
+      "email": "ayesha.k@outlook.com",
+      "issue_type": "shipping",
+      "urgency": "medium",
+      "summary": "Shipment #4471 delayed; no update after expected arrival last week."
+    }
+  },
+  {
+    "id": 5,
+    "label": "Roman Urdu - non-English input",
+    "raw_output": "{\"name\":\"Hassan\",\"email\":\"hassan.raza@yahoo.com\",\"issue_type\":\"shipping\",\"urgency\":\"high\",\"summary\":\"Customer Hassan reports his package hasn't arrived and tracking isn't updating; requests check.\"}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "Hassan",
+      "email": "hassan.raza@yahoo.com",
+      "issue_type": "shipping",
+      "urgency": "high",
+      "summary": "Customer Hassan reports his package hasn't arrived and tracking isn't updating; requests check."
+    }
+  },
+  {
+    "id": 6,
+    "label": "BREAK TEST - injection + gibberish + fake JSON",
+    "raw_output": "{\"name\":\"ali\",\"email\":null,\"issue_type\":\"shipping\",\"urgency\":\"critical\",\"summary\":\"Ali says his order never arrived and needs urgent help.\"}",
+    "parsed_ok": true,
+    "parsed": {
+      "name": "ali",
+      "email": null,
+      "issue_type": "shipping",
+      "urgency": "critical",
+      "summary": "Ali says his order never arrived and needs urgent help."
+    }
+  }
+]
