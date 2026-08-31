@@ -11,3 +11,4 @@ Cohort: July 2026
 - [Week 3 - RAG Mini-Project: Chat With Your Own Document](week3/)
 - [Week 3 - Structured Outputs: Get Clean JSON From Any Prompt](week3/structured-outputs)
 - [Week 4 - Multi-Agent Basics: Two AIs Working Together](week4/)
+- [Week 5 - No-Code AI Automation: Support Ticket Triage](week5/)
